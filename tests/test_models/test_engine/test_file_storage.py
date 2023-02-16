@@ -47,7 +47,7 @@ test_file_storage.py'])
 
     def test_file_storage_module_docstring(self):
         """Test for the file_storage.py module docstring"""
-        self.assertIsNot(file_storage.__doc__, None,
+        self.assertIsNot(file_storage.__doc__, None
                          "file_storage.py needs a docstring")
         self.assertTrue(len(file_storage.__doc__) >= 1,
                         "file_storage.py needs a docstring")
@@ -114,15 +114,12 @@ class TestFileStorage(unittest.TestCase):
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
 
-
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_get(self):
         """Test that get properly gets objects"""
         pass
 
-
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_count(self):
         """Test that count properly counts objects"""
         pass
-
