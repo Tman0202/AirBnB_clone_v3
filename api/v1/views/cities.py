@@ -105,7 +105,7 @@ def update_city(city_id):
 
     city_value = storage.get('City', city_id)
     if city_value is None:
-        abort(404)
+        abort(400)
 
     new_dict = city_value.to_dict()
 
