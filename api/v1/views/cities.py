@@ -29,12 +29,10 @@ def get_cities(state_id):
         if city.state_id == state_id:
             city_list.append(city.to_dict())
 
-    if len(city_list) == 0:
-        abort(404)
     return make_response(jsonify(city_list), 200)
 
 
-@app_views.route('/states/cities/<city_id>', methods=['GET'],
+@app_views.route('/cities/<city_id>', methods=['GET'],
                  strict_slashes=False)
 def get_a_city(city_id):
     """Returns a city object with matching city_id"""
@@ -49,7 +47,7 @@ def get_a_city(city_id):
     return make_response(jsonify(city_value.to_dict()), 200)
 
 
-@app_views.route('/states/cities/<city_id>', methods=['DELETE'],
+@app_views.route('/cities/<city_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_a_city(city_id):
     """Delete a city object"""
@@ -72,15 +70,15 @@ def delete_a_city(city_id):
 def post_one_city(state_id):
     """creates a new state instance"""
     if request.get_json() is None:
-        return make_response(jsonify({"error": "Not a JSON"}), 404)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     content = request.get_json()
     if isinstance(content, dict) is False:
-        return make_response(jsonify({"error": "Not a JSON"}), 404)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     for key, value in content.items():
         if key != 'name':
-            return make_response(jsonify({"error": "Missing name"}), 404)
+            return make_response(jsonify({"error": "Missing name"}), 400)
         if isinstance(value, str) is False:
             abort(404)
 
@@ -94,7 +92,7 @@ def post_one_city(state_id):
     return make_response(jsonify(new_city.to_dict()), 201)
 
 
-@app_views.route('/states/<city_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
 def update_city(city_id):
     """Updates a state object"""
     if city_id is None:
@@ -106,7 +104,7 @@ def update_city(city_id):
         return make_response(jsonify({"error": "Not a JSON"}), 404)
 
     city_value = storage.get('City', city_id)
-    if state_value is None:
+    if city_value is None:
         abort(404)
 
     new_dict = city_value.to_dict()

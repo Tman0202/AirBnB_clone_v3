@@ -50,7 +50,7 @@ def delete_one_state(state_id):
 def post_one_state():
     """creates a new state instance"""
     if request.get_json() is None:
-        abort(404)
+        return make_response(400)
 
     content = request.get_json()
     if isinstance(content, dict) is False:
