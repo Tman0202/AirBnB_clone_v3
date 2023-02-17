@@ -30,7 +30,7 @@ def get_an_amenity(amenity_id):
     if amenity_value is None:
         abort(404)
 
-    return make_response(jsonify(amenity_value), 200)
+    return make_response(jsonify(amenity_value.to_dict()), 200)
 
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'],
                  strict_slashes=False)
@@ -57,11 +57,11 @@ def post_an_amenity():
 
     content = request.get_json()
     if isinstance(content, dict) is False:
-        abort(404)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     for key, value in content.items():
         if key != 'name':
-            return make_response(jsonify({"error": "Missing name"}), 404)
+            return make_response(jsonify({"error": "Missing name"}), 400)
         if isinstance(value, str) is False:
             abort(404)
 
@@ -79,7 +79,7 @@ def update_an_amenity(amenity_id):
     content = request.get_json()
     # checks if user input is a dictionary type
     if isinstance(content, dict) is False:
-        return make_response(jsonify({"error": "Not a JSON"}), 404)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     amenity_value = storage.get('Amenity', amenity_id)
     if amenity_value is None:
