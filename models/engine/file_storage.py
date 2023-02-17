@@ -29,6 +29,7 @@ class FileStorage:
         if cls is not None:
             new_dict = {}
             for key, value in self.__objects.items():
+                # print(f'cls = {cls}, cls type = {cls.to_dict()}')
                 if cls == value.__class__ or cls == value.__class__.__name__:
                     new_dict[key] = value
             return new_dict
@@ -71,16 +72,19 @@ class FileStorage:
         if cls is None or id is None:
             return None
 
-        # returns None if cls is not a valid type
-        if cls not in classes.values() or cls not in classes.keys():
-            return None
-
-        new_dict = {}  # used to store return from self.all
-        new_dict = self.all(cls)
-        # itereates over new_dict to check if the id is present
-        for key, value in new_dict.items():
-            if value.id == id:
-                return value
+        for value in classes.values():
+            if cls == value:
+                new_dict = self.all(cls)
+                for key, value in new_dict.items():
+                    if value.id == id:
+                        return value
+ 
+        for key in classes.keys():
+            if cls == key:
+                new_dict = self.all(cls)
+                for key, value in new_dict.items():
+                    if value.id == id:
+                        return value
         return None
 
     def count(self, cls=None):
