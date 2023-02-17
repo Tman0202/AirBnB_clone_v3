@@ -49,12 +49,12 @@ def post_one_user():
 
     content = request.get_json()
     if isinstance(content, dict) is False:
-        return make_response(jsonify({"error": "Not a JSON"}), 404)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     if 'email' not in content.keys():
-        return make_response(jsonify({"error": "Missing email"}), 404)
+        return make_response(jsonify({"error": "Missing email"}), 400)
     if 'password' not in content.keys():
-        return make_response(jsonify({"error": "Missing password"}), 404)
+        return make_response(jsonify({"error": "Missing password"}), 400)
 
     for value in content.values():
         if isinstance(value, str) is False:
@@ -74,7 +74,7 @@ def update_user(user_id):
     content = request.get_json()
     # checks if user input is a dictionary type
     if isinstance(content, dict) is False:
-        return make_response(jsonify({"error": "Not a JSON"}), 404)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     user_value = storage.get('User', user_id)
     if user_value is None:
@@ -95,7 +95,7 @@ def update_user(user_id):
         elif key == 'last_name':
             new_dict['last_name'] = value
         else:
-            return make_response(jsonify({"error": "Not a JSON"}), 404)
+            return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     user_value.delete()
     user_value = User(**new_dict)

@@ -32,6 +32,7 @@ def get_an_amenity(amenity_id):
 
     return make_response(jsonify(amenity_value.to_dict()), 200)
 
+
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_an_amenity(amenity_id):
@@ -47,6 +48,7 @@ def delete_an_amenity(amenity_id):
     storage.delete(amenity_value)
     storage.save()
     return make_response(jsonify({}), 200)
+
 
 @app_views.route('/amenities', methods=['POST'],
                  strict_slashes=False)
@@ -68,6 +70,7 @@ def post_an_amenity():
     new_amenity = Amenity(**content)
     new_amenity.save()
     return make_response(jsonify(new_amenity.to_dict()), 201)
+
 
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'],
                  strict_slashes=False)
