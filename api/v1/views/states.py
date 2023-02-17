@@ -76,18 +76,18 @@ def update_state(state_id):
     content = request.get_json()
     # checks if user input is a dictionary type
     if isinstance(content, dict) is False:
-        return make_response(jsonify({"error": "Not a JSON"}), 404)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     state_value = storage.get('State', state_id)
     if state_value is None:
-        abort(404)
+        abort(400)
 
     new_dict = state_value.to_dict()
 
     # checks if dictionary has only name as key and str value
     for key, value in content.items():
         if key != 'name':
-            abort(404)
+            abort(400)
         if isinstance(value, str) is False:
             abort(404)
         new_dict['name'] = value
