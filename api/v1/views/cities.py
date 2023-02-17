@@ -101,11 +101,11 @@ def update_city(city_id):
     content = request.get_json()
     # checks if user input is a dictionary type
     if isinstance(content, dict) is False or request.get_json() is None:
-        return make_response(jsonify({"error": "Not a JSON"}), 404)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     city_value = storage.get('City', city_id)
     if city_value is None:
-        abort(400)
+        abort(404)
 
     new_dict = city_value.to_dict()
 
