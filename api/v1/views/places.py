@@ -72,12 +72,10 @@ def post_one_place(city_id):
     if request.get_json() is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
-    print('here 1')
     content = request.get_json()
     if isinstance(content, dict) is False:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
-    print('here 2')
     for key, value in content.items():
         if key != 'user_id':
             return make_response(jsonify({"error": "Missing user_id"}), 400)
@@ -86,17 +84,14 @@ def post_one_place(city_id):
         else:
            user_id = value
 
-    print('here 3')
     city_value = storage.get('City', city_id)
     if city_value is None:
         abort(404)
 
-    print('here 4')
     user_value = storage.get('User', user_id)
     if user_value is None:
         abort(404)
 
-    print('here 5')
     content['city_id'] = city_value.id
     content['user_id'] = user_value.id
     new_place = Place(**content)
