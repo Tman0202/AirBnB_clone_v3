@@ -54,11 +54,11 @@ def post_one_state():
 
     content = request.get_json()
     if isinstance(content, dict) is False:
-        return make_response(jsonify({"error": "Not a JSON"}), 404)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     for key, value in content.items():
         if key != 'name':
-            return make_response(jsonify({"error": "Missing name"}), 404)
+            return make_response(jsonify({"error": "Missing name"}), 400)
         if isinstance(value, str) is False:
             abort(404)
 
