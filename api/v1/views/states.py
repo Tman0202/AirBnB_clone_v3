@@ -87,7 +87,7 @@ def update_state(state_id):
     # checks if dictionary has only name as key and str value
     for key, value in content.items():
         if key != 'name':
-            abort(400)
+            abort(404)
         if isinstance(value, str) is False:
             abort(404)
         new_dict['name'] = value
@@ -95,4 +95,4 @@ def update_state(state_id):
     state_value.delete()
     state_value = State(**new_dict)
     state_value.save()
-    return jsonify(state_value.to_dict())
+    return make_response(jsonify(state_value.to_dict()), 200)
