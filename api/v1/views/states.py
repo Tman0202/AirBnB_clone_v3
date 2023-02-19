@@ -80,7 +80,7 @@ def update_state(state_id):
 
     state_value = storage.get('State', state_id)
     if state_value is None:
-        abort(400)
+        abort(404)
 
     new_dict = state_value.to_dict()
 
