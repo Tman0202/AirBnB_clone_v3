@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """Creates for the link Place and Amenity objects"""
+
 from flask import jsonify
 from flask import request
 from flask import abort
