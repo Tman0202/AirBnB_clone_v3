@@ -76,19 +76,17 @@ def post_one_place(city_id):
     if isinstance(content, dict) is False:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
-    for key, value in content.items():
-        if key != 'user_id':
-            return make_response(jsonify({"error": "Missing user_id"}), 400)
-        if isinstance(value, str) is False:
-            abort(400)
-        else:
-           user_id = value
+    if 'user_id' not in content.keys():
+        return make_response(jsonify({"error": "Missing user_id"}), 400)
+
+    if 'name' not in content.keys():
+        return make_response(jsonify({"error": "Missing name"}), 400)
 
     city_value = storage.get('City', city_id)
     if city_value is None:
         abort(404)
 
-    user_value = storage.get('User', user_id)
+    user_value = storage.get('User', content.get('user_id'))
     if user_value is None:
         abort(404)
 
@@ -119,28 +117,28 @@ def update_place(place_id):
     # checks if dictionary has only name as key and str value
     for key, value in content.items():
         if key == 'name':
-            if isinstance(value, str) is true:
+            if isinstance(value, str) is True:
                 new_dict['name'] = value
         elif key == 'description':
-            if isinstance(value, str) is true:
+            if isinstance(value, str) is True:
                 new_dict['description'] = value
         elif key == 'number_rooms':
-            if isinstance(value, int) is true:
+            if isinstance(value, int) is True:
                 new_dict['number_rooms'] = value
         elif key == 'number_bathrooms':
-            if isinstance(value, int) is true:
+            if isinstance(value, int) is True:
                 new_dict['number_bathrooms'] = value
         elif key == 'max_guest':
-            if isinstance(value, int) is true:
+            if isinstance(value, int) is True:
                 new_dict['max_guest'] = value
         elif key == 'price_by_night':
-            if isinstance(value, int) is true:
+            if isinstance(value, int) is True:
                 new_dict['price_by_night'] = value
         elif key == 'latitude':
-            if isinstance(value, float) is true:
+            if isinstance(value, float) is True:
                 new_dict['latitude'] = value
         elif key == 'longtiude':
-            if isinstance(value, float) is true:
+            if isinstance(value, float) is True:
                 new_dict['longtiude'] = value
         else:
             return make_response(jsonify({"error": "Not a JSON"}), 400)
